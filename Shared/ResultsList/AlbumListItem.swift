@@ -13,7 +13,8 @@ struct AlbumListItem: View {
 
 	var body: some View {
 		HStack(content: {
-			Image(systemName: "music.note")
+			AsyncImage(url: musicResultVM.normalArtworkURL,
+					   placeholder: Image(systemName: "music.note"))
 				.frame(width: 60.0, height: 60.0)
 			VStack(alignment: .leading, content: {
 				Text(musicResultVM.name)

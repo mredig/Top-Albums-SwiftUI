@@ -12,7 +12,13 @@ struct AsyncImage<Placeholder: View>: View {
 	}
 
 	private var image: some View {
-		placeholder
+		Group {
+			if let image = loader.image {
+				Image(uiImage: image).resizable()
+			} else {
+				placeholder
+			}
+		}
 	}
 
 	var body: some View {
