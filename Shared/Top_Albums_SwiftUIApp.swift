@@ -11,7 +11,7 @@ import SwiftUI
 struct Top_Albums_SwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            TopAlbumList()
+            TopAlbumList(musicResults: sampleResults)
         }
     }
 }

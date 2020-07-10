@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TopAlbumList: View {
 
-	let musicResults = sampleResults
+	let musicResults: [MusicResult]
 
 	var body: some View {
 		NavigationView {
@@ -27,6 +27,6 @@ struct TopAlbumList: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TopAlbumList()
+        TopAlbumList(musicResults: sampleResults)
     }
 }

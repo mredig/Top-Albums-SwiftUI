@@ -6,15 +6,17 @@ struct AsyncImage<Placeholder: View>: View {
 	@ObservedObject private var loader: ImageLoader
 	private let placeholder: Placeholder?
 
-	init(url: URL, placeholder: Placeholder? = nil) {
-		loader = ImageLoader(url: url)
+	init(url: URL, placeholder: Placeholder? = nil, cache: DataCache? = nil) {
+		loader = ImageLoader(url: url, cache: cache)
 		self.placeholder = placeholder
 	}
 
 	private var image: some View {
 		Group {
 			if let image = loader.image {
-				Image(uiImage: image).resizable()
+				Image(uiImage: image)
+					.resizable()
+					.aspectRatio(contentMode: .fit)
 			} else {
 				placeholder
 			}
