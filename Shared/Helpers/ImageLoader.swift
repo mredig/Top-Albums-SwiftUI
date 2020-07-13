@@ -5,7 +5,7 @@ import Foundation
 class ImageLoader: ObservableObject {
 	@Published var image: UIImage?
 	private let url: URL
-	private var cancellable: URLSessionDataTask?
+	private var cancellable: AnyCancellable?
 	private var cache: DataCache?
 	private static let imageProcessingQueue = DispatchQueue(label: "image-processing")
 
@@ -30,32 +30,32 @@ class ImageLoader: ObservableObject {
 			return
 		}
 
-//		cancellable = URLSession.shared.dataTaskPublisher(for: url)
-////			.subscribe(on: Self.imageProcessingQueue)
-//			.handleEvents(receiveSubscription: { [weak self] _ in self?.onStart() },
-//						  receiveOutput: { [weak self] in
-//							self?.cache($0.data)
-//							self?.setImage(from: $0.data)
-//						  },
-//						  receiveCompletion: { [weak self] _ in self?.onFinish() },
-//						  receiveCancel: { [weak self] in self?.onFinish() })
-////			.map { UIImage(data: $0.data) }
-////			.replaceError(with: nil)
-////			.receive(on: DispatchQueue.main)
-////			.assign(to: \.image, on: self)
+		cancellable = URLSession.shared.dataTaskPublisher(for: url)
+			.handleEvents(receiveSubscription: { [weak self] _ in self?.onStart() },
+						  receiveOutput: { [weak self] in
+							self?.cache($0.data)
+							self?.setImage(from: $0.data)
+						  },
+						  receiveCompletion: { [weak self] _ in self?.onFinish() },
+						  receiveCancel: { [weak self] in self?.onFinish() })
+			.subscribe(on: Self.imageProcessingQueue)
+			.map { UIImage(data: $0.data) }
+			.replaceError(with: nil)
+			.receive(on: DispatchQueue.main)
+			.assign(to: \.image, on: self)
 
-		onStart()
-		cancellable = URLSession.shared.dataTask(with: url) { data, _, error in
-			if let error = error {
-				print("error loading image: \(error)")
-				return
-			}
-			guard let data = data else { return }
-			self.cache(data)
-			self.setImage(from: data)
-			self.onFinish()
-		}
-		cancellable?.resume()
+//		onStart()
+//		cancellable = URLSession.shared.dataTask(with: url) { data, _, error in
+//			if let error = error {
+//				print("error loading image: \(error)")
+//				return
+//			}
+//			guard let data = data else { return }
+//			self.cache(data)
+//			self.setImage(from: data)
+//			self.onFinish()
+//		}
+//		cancellable?.resume()
 
 	}
 

@@ -16,7 +16,7 @@ struct AlbumListItem: View {
 	var body: some View {
 		HStack(content: {
 			AsyncImage(url: musicResultVM.normalArtworkURL,
-					   placeholder: Image(systemName: "music.note"),
+					   placeholder: Image(systemName: "photo"),
 					   cache: cache)
 				.frame(width: 60.0, height: 60.0)
 				.cornerRadius(8)

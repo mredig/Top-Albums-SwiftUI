@@ -13,11 +13,8 @@ struct TopAlbumList: View {
 
 	var body: some View {
 		NavigationView {
-			List {
-				ForEach(musicResults, id: \.id) { result in
-					let vm = MusicResultViewModel(musicResult: result)
-					AlbumListItem(musicResultVM: vm)
-				}
+			List(musicResults.map { MusicResultViewModel(musicResult: $0) } ) { vm in
+				AlbumListItem(musicResultVM: vm)
 			}
 			.navigationTitle("Top Albums")
 		}

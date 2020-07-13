@@ -79,3 +79,5 @@ struct MusicResultViewModel {
 	}
 
 }
+
+extension MusicResultViewModel: Identifiable {}
